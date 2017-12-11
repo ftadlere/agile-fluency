@@ -1,8 +1,21 @@
 var REQUIRED_FIELDS = {
-    c_AgileTODO1: 'Agile To Do 1',
-    c_AgileWIP1: 'Agile Work Progress 1',
-    c_AgileDONE1: 'Agile Done 1'
+    c_AgileTODO1: '',
+    c_AgileWIP1: '',
+    c_AgileDONE1: '',
+    c_AgileTODO2: '',
+    c_AgileWIP2: '',
+    c_AgileDONE2: '',
+    c_AgileTODO3: '',
+    c_AgileWIP3: '',
+    c_AgileDONE3: '',
+    c_AgileTODO4: '',
+    c_AgileWIP4: '',
+    c_AgileDONE4: '',
 };
+
+const title1 = 'A Acquerir';
+const title2 = 'En cours d acquisition';
+const title3 = 'Acquises';
 
 Ext.define('CustomApp', {
     extend: 'Rally.app.App',
@@ -14,7 +27,7 @@ Ext.define('CustomApp', {
           xtype: 'container',
           itemId: 'content',
           layout: 'column',
-          width: 3000,
+          width: screen.width,
           title: 'Agile Fondamentale (focus valeur)'
       });
 
@@ -22,7 +35,6 @@ Ext.define('CustomApp', {
           context: this.getContext(),
           types: 'Project',
           success: function(models) {
-            console.log(models);
               this.models = models;
               this._loadProject();
           },
@@ -37,7 +49,6 @@ Ext.define('CustomApp', {
             fetch: _.keys(REQUIRED_FIELDS)
         }).then({
             success: function(project) {
-              console.log(project);
               this.project = project;
               this._checkForFields();
             },
@@ -85,39 +96,39 @@ Ext.define('CustomApp', {
             contentContainer.add([
                 {
                     xtype: 'panel',
-                    cls: 'plus-panel',
-                    title: ' AGILE FONDAMENTALE',
+                    cls: 'fondamentale-panel',
+                    title: 'AGILE FONDAMENTALE',
                     titleAlign: 'center',
-                    columnWidth: 0.25,
+                    columnWidth: 0.5,
                     minWidth: 550,
-                    items: [ this._buildEditorFor('c_AgileTODO1'),this._buildEditorFor('c_AgileWIP1'), this._buildEditorFor('c_AgileDONE1') ]
+                    items: [this._buildEditorFor(title1,'c_AgileTODO1'), this._buildEditorFor(title2,'c_AgileWIP1'), this._buildEditorFor(title3,'c_AgileDONE1')]
                 },
                 {
                     xtype: 'panel',
-                    cls: 'delta-panel',
+                    cls: 'durable-panel',
                     title: 'AGILE DURABLE',
                     titleAlign: 'center',
-                    columnWidth: 0.25,
+                    columnWidth: 0.5,
                     minWidth: 550,
-                    items: [ this._buildEditorFor('c_AgileTODO1'),this._buildEditorFor('c_AgileWIP1'), this._buildEditorFor('c_AgileDONE1') ]
+                    items: [this._buildEditorFor(title1,'c_AgileTODO2'), this._buildEditorFor(title2,'c_AgileWIP2'), this._buildEditorFor(title3,'c_AgileDONE2')]
                 },
                 {
                     xtype: 'panel',
-                    cls: 'actions-panel',
+                    cls: 'promesse-panel',
                     title: 'PROMESSE DE L AGILE',
-                    columnWidth: 0.25,
+                    columnWidth: 0.5,
                     titleAlign: 'center',
                     minWidth: 550,
-                    items: [ this._buildEditorFor('c_AgileTODO1'),this._buildEditorFor('c_AgileWIP1'), this._buildEditorFor('c_AgileDONE1') ]
+                    items: [this._buildEditorFor(title1,'c_AgileTODO3'), this._buildEditorFor(title2,'c_AgileWIP3'), this._buildEditorFor(title3,'c_AgileDONE3')]
                 },
                 {
                     xtype: 'panel',
-                    cls: 'actions-panel',
+                    cls: 'future-panel',
                     title: 'FUTURE DE L AGILE',
-                    columnWidth: 0.25,
+                    columnWidth: 0.5,
                     titleAlign: 'center',
                     minWidth: 550,
-                    items: [ this._buildEditorFor('c_AgileTODO1'),this._buildEditorFor('c_AgileWIP1'), this._buildEditorFor('c_AgileDONE1') ]
+                    items: [this._buildEditorFor(title1,'c_AgileTODO4'), this._buildEditorFor(title2,'c_AgileWIP4'), this._buildEditorFor(title3,'c_AgileDONE4')]
                 }
             ]);
           }
@@ -129,30 +140,37 @@ Ext.define('CustomApp', {
         });
       },
 
-      _buildEditorFor: function(fieldName) {
+      _buildEditorFor: function(title, fieldName) {
         return {
-            xtype: 'rallyrichtexteditor',
-            itemId: fieldName.replace('c_A', 'a'),
-            fieldName: fieldName,
-            showUndoButton: true,
-            margin: '0 10px',
-            height: 200,
-            value: this.project.get(fieldName),
-            listeners: {
-                blur: this._onEditorChange,
-                scope: this
+          xtype: 'panel',
+          cls: 'child-panel',
+          title: title,
+          titleAlign: 'center',
+          margin: '0px 10px',
+          height: 250,
+          items: [
+            {
+              xtype: 'rallyrichtexteditor',
+              itemId: fieldName.replace('c_A', 'a'),
+              fieldName: fieldName,
+              showUndoButton: true,
+              height: 200,
+              value: this.project.get(fieldName),
+              listeners: {
+                  blur: this._onEditorChange,
+                  scope: this
+                }
             }
+          ]
         };
       },
 
       _onEditorChange: function(editor) {
-        console.log(editor);
         this.project.set(editor.fieldName, editor.getValue());
         this.project.save({
             fetch: _.keys(REQUIRED_FIELDS)
         }).then({
             success: function(project) {
-                console.log(project);
                 this.project = project;
                 Ext.create('Rally.ui.detail.view.SavedIndicator', {
                     target: editor
