@@ -1,3 +1,61 @@
 .app {
-     /* Add app styles here */
+
+}
+
+.x-panel {
+  border: 1;
+}
+
+.x-panel-body {
+  border: none;
+}
+
+.x-panel-header-default {
+  box-shadow: none;
+}
+
+.x-panel-header-text-container-default {
+  line-height: 25px;
+}
+
+.x-panel-header-text-container-default {
+  font-size: 25px;
+  color: #ffffff;
+  padding-top: 5px;
+}
+
+.fondamentale-panel .x-panel-header-text-container-default {
+  background-color: #3498db;
+}
+
+.durable-panel .x-panel-header-text-container-default {
+  background-color: #1abc9c;
+}
+
+.promesse-panel .x-panel-header-text-container-default {
+  background-color: #e67e22 ;
+}
+
+.future-panel .x-panel-header-text-container-default {
+  background-color: #c0392b;
+}
+
+.child-panel .x-panel-header-text-container-default {
+  font-size: 20px;
+  color: #6C7A89;
+  background-color: #ffffff;
+}
+
+
+/*
+CSS SAVED ACTION
+*/
+
+.rallyRichTextEditor.pre-save {
+  transition: border-color 2s;
+}
+
+.rallyRichTextEditor.pre-save.is-saving {
+  transition: border-color 0s;
+  border-color: #8DC63F;
 }
