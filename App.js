@@ -13,9 +13,9 @@ var REQUIRED_FIELDS = {
     c_AgileDONE4: '',
 };
 
-const title1 = 'A Acquerir';
-const title2 = 'En cours d acquisition';
-const title3 = 'Acquises';
+var title1 = 'A Acquerir';
+var title2 = 'En cours d acquisition';
+var title3 = 'Acquises';
 
 Ext.define('CustomApp', {
     extend: 'Rally.app.App',
